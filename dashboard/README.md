@@ -11,7 +11,7 @@ helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dash
 --create-namespace --namespace kubernetes-dashboard \
 ```
 
-## Config
+## Using
 
 Sử dụng cert được generated from cloudflare(10 năm)
 
@@ -20,37 +20,14 @@ Sử dụng cert được generated from cloudflare(10 năm)
 kubectl create secret tls kubernetes-dashboard-tls --key common.key --cert common.crt -n kubernetes-dashboard
 ```
 
+Sau đó apply toàn bộ thư mục dashboard để tạo ingress, service account(dùng để access)
+```bash
+k apply -f dashboard
+```
 
-
-## Tạo ingress 
+### Access dashboard
 
 ```bash
-# apply file ingress
-k apply -f ingress.yaml
-```
-
-
-
-## Access dashboard
-
-```
-# create ServiceAccount
-kubectl create serviceaccount dashboard-admin -n kubernetes-dashboard
-
-```
-
-Sau khi tạo **Service Account**, bạn cần gán quyền **cluster-admin** cho nó bằng cách tạo một **ClusterRoleBinding**:
-
-```bash
-kubectl create clusterrolebinding dashboard-admin-binding \
-  --clusterrole=cluster-admin \
-  --serviceaccount=kubernetes-dashboard:dashboard-admin
-
-```
-
-Lấy secret
-
-```bash
-kubectl -n kubernetes-dashboard create token dashboard-admin
+kubectl get secret admin-user -n kubernetes-dashboard -o jsonpath={".data.token"} | base64 -d
 ```
 
