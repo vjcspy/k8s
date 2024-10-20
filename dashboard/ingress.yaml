@@ -17,3 +17,7 @@ spec:
             name: kubernetes-dashboard
             port:
               number: 443
+  tls:
+  - secretName: kubernetes-dashboard-cert
+    hosts:
+      - k8s.dinhkhoile.com
