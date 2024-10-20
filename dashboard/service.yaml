@@ -17,4 +17,4 @@ spec:
     port: 443  # Cổng trong cluster
     protocol: TCP
     targetPort: 8443  # Cổng trên Pod
-    nodePort: 32443  # Cổng expose ra bên ngoài (cổng trong khoảng 30000-32767)
+    nodePort: 32260  # Cổng expose ra bên ngoài (cổng trong khoảng 30000-32767)
