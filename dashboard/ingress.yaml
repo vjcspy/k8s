@@ -4,7 +4,8 @@ metadata:
   name: kubernetes-dashboard-ingress
   namespace: kubernetes-dashboard
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure  # Sử dụng cả HTTP và HTTPS entrypoints
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure  # Sử dụng HTTP và HTTPS
+    traefik.ingress.kubernetes.io/router.tls: "true"  # Bật TLS cho websecure
 spec:
   rules:
   - host: k8s.dinhkhoile.com
@@ -14,10 +15,10 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: kubernetes-dashboard
+            name: kubernetes-dashboard  # Service của Dashboard
             port:
-              number: 80  # Sử dụng cổng HTTP bên trong Cluster (80 cho HTTP traffic)
+              number: 443               # Forward đến cổng 443 của Service
   tls:
-  - secretName: kubernetes-dashboard-cert
+  - secretName: kubernetes-dashboard-cert  # Secret chứa TLS cert cho HTTPS
     hosts:
       - k8s.dinhkhoile.com
